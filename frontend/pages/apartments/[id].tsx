@@ -21,6 +21,7 @@ export default function ApartmentDetails() {
   const [error, setError] = useState<string | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
+  
   useEffect(() => {
     if (id) {
       const fetchApartment = async () => {
