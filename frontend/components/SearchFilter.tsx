@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaFilter } from "react-icons/fa";
 
 interface SearchFilterProps {
   onSearch: (params: {
@@ -34,13 +34,16 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className="w-full mb-6">
-      <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-2">
+    <div className="w-full mb-8">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col md:flex-row gap-3 bg-white p-4 rounded-xl shadow-sm"
+      >
         <div className="relative flex-grow">
           <input
             type="text"
             placeholder="Search apartments..."
-            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-gray-50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -50,45 +53,61 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch }) => {
         <div className="relative">
           <button
             type="button"
-            className="w-full md:w-auto p-3 bg-white border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full md:w-auto p-3 flex items-center justify-center space-x-2 bg-white border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 hover:bg-gray-50 transition-colors"
             onClick={() => setShowFilters(!showFilters)}
           >
-            Filter By:{" "}
-            {activeFilter === "all"
-              ? "All"
-              : activeFilter === "unitName"
-                ? "Unit Name"
-                : activeFilter === "unitNumber"
-                  ? "Unit Number"
-                  : "Project"}
+            <FaFilter className="text-gray-500" />
+            <span>
+              {activeFilter === "all"
+                ? "All"
+                : activeFilter === "unitName"
+                  ? "Unit Name"
+                  : activeFilter === "unitNumber"
+                    ? "Unit Number"
+                    : "Project"}
+            </span>
           </button>
 
           {showFilters && (
             <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
               <button
                 type="button"
-                className={`w-full text-left p-3 hover:bg-gray-100 ${activeFilter === "all" ? "bg-blue-100" : ""}`}
+                className={`w-full text-left p-3 hover:bg-gray-100 ${
+                  activeFilter === "all" ? "bg-primary-50 text-primary-700" : ""
+                }`}
                 onClick={() => handleFilterClick("all")}
               >
                 All
               </button>
               <button
                 type="button"
-                className={`w-full text-left p-3 hover:bg-gray-100 ${activeFilter === "unitName" ? "bg-blue-100" : ""}`}
+                className={`w-full text-left p-3 hover:bg-gray-100 ${
+                  activeFilter === "unitName"
+                    ? "bg-primary-50 text-primary-700"
+                    : ""
+                }`}
                 onClick={() => handleFilterClick("unitName")}
               >
                 Unit Name
               </button>
               <button
                 type="button"
-                className={`w-full text-left p-3 hover:bg-gray-100 ${activeFilter === "unitNumber" ? "bg-blue-100" : ""}`}
+                className={`w-full text-left p-3 hover:bg-gray-100 ${
+                  activeFilter === "unitNumber"
+                    ? "bg-primary-50 text-primary-700"
+                    : ""
+                }`}
                 onClick={() => handleFilterClick("unitNumber")}
               >
                 Unit Number
               </button>
               <button
                 type="button"
-                className={`w-full text-left p-3 hover:bg-gray-100 ${activeFilter === "project" ? "bg-blue-100" : ""}`}
+                className={`w-full text-left p-3 hover:bg-gray-100 ${
+                  activeFilter === "project"
+                    ? "bg-primary-50 text-primary-700"
+                    : ""
+                }`}
                 onClick={() => handleFilterClick("project")}
               >
                 Project
@@ -99,7 +118,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch }) => {
 
         <button
           type="submit"
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
         >
           Search
         </button>
