@@ -54,7 +54,7 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment }) => {
           </h5>
         </Link>
 
-        <p className="text-gray-600 text-sm mb-3">{`${unitNumber}, ${project}`}</p>
+        <p className="text-gray-600 text-sm mb-3 dark:text-white">{`${unitNumber}, ${project}`}</p>
 
         <div className="flex justify-between text-sm text-gray-700 mb-3 border-t border-b border-gray-100 py-2">
           <div className="flex items-center gap-1">

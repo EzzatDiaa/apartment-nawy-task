@@ -1,8 +1,7 @@
-// frontend/components/Layout.tsx
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaBars, FaTimes } from "react-icons/fa";
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,6 +12,12 @@ const Layout: React.FC<LayoutProps> = ({
   children,
   title = "Apartment Listings",
 }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Head>
@@ -21,7 +26,7 @@ const Layout: React.FC<LayoutProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="bg-white text-gray-800 shadow-sm">
+      <header className="bg-white text-gray-800 shadow-sm sticky top-0 z-50">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/">
             <div className="text-2xl font-bold cursor-pointer flex items-center">
@@ -34,59 +39,187 @@ const Layout: React.FC<LayoutProps> = ({
             <Link href="/" className="hover:text-blue-600">
               Home
             </Link>
-            <Link href="/apartments" className="hover:text-blue-600">
+            <Link href="/search" className="hover:text-blue-600">
               Search
             </Link>
-            <Link href="#" className="hover:text-blue-600">
+            <Link
+              href="/coming-soon"
+              className="hover:text-blue-600 flex items-center"
+            >
               Sell
+              <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                soon
+              </span>
             </Link>
-            <Link href="#" className="hover:text-blue-600">
+            <Link
+              href="/coming-soon"
+              className="hover:text-blue-600 flex items-center"
+            >
               Blog
+              <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                soon
+              </span>
             </Link>
-            <Link href="#" className="hover:text-blue-600">
+            <Link
+              href="/coming-soon"
+              className="hover:text-blue-600 flex items-center"
+            >
               About
+              <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                soon
+              </span>
             </Link>
-            <Link href="#" className="hover:text-blue-600">
+            <Link
+              href="/coming-soon"
+              className="hover:text-blue-600 flex items-center"
+            >
               Contact
+              <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                soon
+              </span>
             </Link>
-            <Link href="#" className="hover:text-blue-600">
+            <Link
+              href="/coming-soon"
+              className="hover:text-blue-600 flex items-center"
+            >
               Now
+              <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                soon
+              </span>
             </Link>
-            <Link href="#" className="hover:text-blue-600">
+            <Link
+              href="/coming-soon"
+              className="hover:text-blue-600 flex items-center"
+            >
               Careers
+              <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                soon
+              </span>
             </Link>
-            <Link href="#" className="hover:text-blue-600">
+            <Link
+              href="/coming-soon"
+              className="hover:text-blue-600 flex items-center"
+            >
               Verify Agent
+              <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                soon
+              </span>
             </Link>
             <button className="ml-4 p-2 rounded-full border border-gray-300">
               <FaHeart className="text-gray-500" />
             </button>
-            <Link href="#" className="ml-2 hover:text-blue-600">
+            <Link
+              href="/coming-soon"
+              className="ml-2 hover:text-blue-600 flex items-center"
+            >
               العربية
+              <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                soon
+              </span>
             </Link>
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <button className="text-gray-800">
-              {/* Menu icon */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+            <button
+              className="text-gray-800 p-2"
+              onClick={toggleMobileMenu}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <FaTimes className="h-6 w-6" />
+              ) : (
+                <FaBars className="h-6 w-6" />
+              )}
             </button>
           </div>
         </nav>
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-white py-2 px-4 shadow-md">
+            <div className="flex flex-col space-y-3">
+              <Link href="/" className="py-2 hover:text-blue-600">
+                Home
+              </Link>
+              <Link href="/search" className="py-2 hover:text-blue-600">
+                Search
+              </Link>
+              <Link
+                href="/coming-soon"
+                className="py-2 hover:text-blue-600 flex items-center"
+              >
+                Sell
+                <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                  soon
+                </span>
+              </Link>
+              <Link
+                href="/coming-soon"
+                className="py-2 hover:text-blue-600 flex items-center"
+              >
+                Blog
+                <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                  soon
+                </span>
+              </Link>
+              <Link
+                href="/coming-soon"
+                className="py-2 hover:text-blue-600 flex items-center"
+              >
+                About
+                <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                  soon
+                </span>
+              </Link>
+              <Link
+                href="/coming-soon"
+                className="py-2 hover:text-blue-600 flex items-center"
+              >
+                Contact
+                <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                  soon
+                </span>
+              </Link>
+              <Link
+                href="/coming-soon"
+                className="py-2 hover:text-blue-600 flex items-center"
+              >
+                Now
+                <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                  soon
+                </span>
+              </Link>
+              <Link
+                href="/coming-soon"
+                className="py-2 hover:text-blue-600 flex items-center"
+              >
+                Careers
+                <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                  soon
+                </span>
+              </Link>
+              <Link
+                href="/coming-soon"
+                className="py-2 hover:text-blue-600 flex items-center"
+              >
+                Verify Agent
+                <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                  soon
+                </span>
+              </Link>
+              <Link
+                href="/coming-soon"
+                className="py-2 hover:text-blue-600 flex items-center"
+              >
+                العربية
+                <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                  soon
+                </span>
+              </Link>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="flex-grow">{children}</main>
@@ -101,15 +234,33 @@ const Layout: React.FC<LayoutProps> = ({
               </p>
             </div>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-blue-300">
+              <Link
+                href="/coming-soon"
+                className="hover:text-blue-300 flex items-center"
+              >
                 Privacy Policy
-              </a>
-              <a href="#" className="hover:text-blue-300">
+                <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                  soon
+                </span>
+              </Link>
+              <Link
+                href="/coming-soon"
+                className="hover:text-blue-300 flex items-center"
+              >
                 Terms of Service
-              </a>
-              <a href="#" className="hover:text-blue-300">
+                <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                  soon
+                </span>
+              </Link>
+              <Link
+                href="/coming-soon"
+                className="hover:text-blue-300 flex items-center"
+              >
                 Contact Us
-              </a>
+                <span className="ml-1 bg-orange-500 text-white text-[9px] px-1 rounded-sm">
+                  soon
+                </span>
+              </Link>
             </div>
           </div>
         </div>

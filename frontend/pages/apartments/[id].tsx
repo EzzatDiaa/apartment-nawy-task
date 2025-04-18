@@ -71,9 +71,11 @@ export default function ApartmentDetails() {
     );
   }
 
-  const placeholderImage = "/default-apartment.jpg";
-  // Create an array with the placeholder image
-  const images = Array(3).fill(placeholderImage);
+  const defaultImages = [
+    "/default-apartment.jpg",
+    "/default-apartment2.jpg",
+    "/default-apartment3.jpg",
+  ];
 
   return (
     <Layout title={`${apartment.unitName} | Apartment Details`}>
@@ -90,7 +92,9 @@ export default function ApartmentDetails() {
             <div className="relative h-96">
               <div
                 className="h-full w-full bg-cover bg-center bg-gray-200"
-                style={{ backgroundImage: `url(${images[activeImageIndex]})` }}
+                style={{
+                  backgroundImage: `url(${defaultImages[activeImageIndex]})`,
+                }}
               />
               {apartment.featured && (
                 <div className="absolute top-4 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold">
@@ -99,9 +103,9 @@ export default function ApartmentDetails() {
               )}
             </div>
 
-            {images.length > 1 && (
+            {defaultImages.length > 1 && (
               <div className="p-4 flex gap-2 overflow-x-auto">
-                {images.map((image, index) => (
+                {defaultImages.map((image, index) => (
                   <div
                     key={index}
                     className={`w-20 h-20 flex-shrink-0 cursor-pointer border-2 rounded ${
