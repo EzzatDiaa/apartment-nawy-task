@@ -7,12 +7,13 @@ import {
   IsBoolean,
   ValidateNested,
   Min,
+  IsIn,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class LocationDto {
   @IsNumber()
-  latiude: number;
+  latitude: number;
 
   @IsNumber()
   longitude: number;
@@ -66,6 +67,11 @@ export class CreateApartmentDto {
   @IsString({ each: true })
   @IsOptional()
   images: string[];
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['Apartment', 'Villa', 'Townhouse'])
+  propertyType: string;
 
   @IsOptional()
   @ValidateNested()

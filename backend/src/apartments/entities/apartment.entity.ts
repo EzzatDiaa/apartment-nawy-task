@@ -45,6 +45,9 @@ export class Apartment {
     address: string;
   };
 
+  @Column({ default: 'Apartment' })
+  propertyType: string;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 

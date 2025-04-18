@@ -6,8 +6,6 @@ import {
   Param,
   Query,
   ValidationPipe,
-  Injectable,
-  Search,
 } from '@nestjs/common';
 import { ApartmentsService } from './apartments.service';
 import { CreateApartmentDto } from './dto/create-apartment.dto';
@@ -30,13 +28,30 @@ export class ApartmentsController {
     @Query('unitName') unitName?: string,
     @Query('unitNumber') unitNumber?: string,
     @Query('project') project?: string,
+    @Query('propertyType') propertyType?: string,
+    @Query('bedrooms') bedrooms?: string,
+    @Query('priceMin') priceMin?: string,
+    @Query('priceMax') priceMax?: string,
   ): Promise<Apartment[]> {
-    if (search || unitName || unitNumber || project) {
+    if (
+      search ||
+      unitName ||
+      unitNumber ||
+      project ||
+      propertyType ||
+      bedrooms ||
+      priceMin ||
+      priceMax
+    ) {
       return this.apartmentsService.search({
         search,
         unitName,
         unitNumber,
         project,
+        propertyType,
+        bedrooms,
+        priceMin,
+        priceMax,
       });
     }
     return this.apartmentsService.findAll();

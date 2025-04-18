@@ -1,6 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like, FindOptionsWhere } from 'typeorm';
+import {
+  Repository,
+  Like,
+  FindOptionsWhere,
+  Between,
+  MoreThanOrEqual,
+} from 'typeorm';
 import { Apartment } from './entities/apartment.entity';
 import { CreateApartmentDto } from './dto/create-apartment.dto';
 
@@ -10,6 +16,7 @@ export class ApartmentsService {
     @InjectRepository(Apartment)
     private apartmentsRepository: Repository<Apartment>,
   ) {}
+
   async create(createApartmentDto: CreateApartmentDto): Promise<Apartment> {
     const apartment = this.apartmentsRepository.create(createApartmentDto);
     return this.apartmentsRepository.save(apartment);
@@ -34,8 +41,22 @@ export class ApartmentsService {
     unitName?: string;
     unitNumber?: string;
     project?: string;
+    propertyType?: string;
+    bedrooms?: string;
+    priceMin?: string;
+    priceMax?: string;
   }): Promise<Apartment[]> {
-    const { search, unitName, unitNumber, project } = params;
+    const {
+      search,
+      unitName,
+      unitNumber,
+      project,
+      propertyType,
+      bedrooms,
+      priceMin,
+      priceMax,
+    } = params;
+
     const where: FindOptionsWhere<Apartment> = {};
 
     if (search) {
@@ -58,6 +79,22 @@ export class ApartmentsService {
 
     if (project) {
       where.project = Like(`%${project}%`);
+    }
+
+    if (propertyType) {
+      where.propertyType = propertyType;
+    }
+
+    if (bedrooms) {
+      where.bedrooms = MoreThanOrEqual(parseInt(bedrooms, 10));
+    }
+
+    if (priceMin && priceMax) {
+      where.price = Between(parseFloat(priceMin), parseFloat(priceMax));
+    } else if (priceMin) {
+      where.price = MoreThanOrEqual(parseFloat(priceMin));
+    } else if (priceMax) {
+      where.price = Between(0, parseFloat(priceMax));
     }
 
     return this.apartmentsRepository.find({ where });
