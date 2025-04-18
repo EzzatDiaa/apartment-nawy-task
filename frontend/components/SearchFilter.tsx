@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaSearch, FaFilter } from "react-icons/fa";
+import { FaSearch, FaChevronDown } from "react-icons/fa";
 
 interface SearchFilterProps {
   onSearch: (params: {
@@ -12,113 +12,110 @@ interface SearchFilterProps {
 
 const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch }) => {
   const [search, setSearch] = useState("");
-  const [activeFilter, setActiveFilter] = useState<
-    "all" | "unitName" | "unitNumber" | "project"
-  >("all");
-  const [showFilters, setShowFilters] = useState(false);
+  const [propertyType, setPropertyType] = useState("");
+  const [bedsAndBaths, setBedsAndBaths] = useState("");
+  const [priceRange, setPriceRange] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (activeFilter === "all") {
-      onSearch({ search });
-    } else {
-      onSearch({ [activeFilter]: search });
-    }
-  };
 
-  const handleFilterClick = (
-    filter: "all" | "unitName" | "unitNumber" | "project",
-  ) => {
-    setActiveFilter(filter);
-    setShowFilters(false);
+    // Create search parameters object
+    let searchParams: {
+      search?: string;
+      unitName?: string;
+      unitNumber?: string;
+      project?: string;
+    } = {};
+
+    // Add the general search term if provided
+    if (search) {
+      searchParams.search = search;
+    }
+
+    // Add other search parameters based on dropdown selections
+    // This is a simplified example - you might want to adapt this based on your backend API
+    if (propertyType) {
+      searchParams.unitName = propertyType;
+    }
+
+    onSearch(searchParams);
   };
 
   return (
-    <div className="w-full mb-8">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col md:flex-row gap-3 bg-white p-4 rounded-xl shadow-sm"
-      >
-        <div className="relative flex-grow">
-          <input
-            type="text"
-            placeholder="Search apartments..."
-            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-gray-50"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+    <div className="w-full bg-white rounded-lg overflow-hidden shadow-lg">
+      {/* Header */}
+      <div className="bg-blue-600 text-white py-3 px-4">
+        <h2 className="text-lg font-medium">Find Properties</h2>
+      </div>
+
+      {/* Search inputs */}
+      <form onSubmit={handleSubmit} className="p-4">
+        <div className="w-full mb-4">
+          <div className="relative">
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Area, Unit Name, Project"
+              className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
         </div>
 
-        <div className="relative">
-          <button
-            type="button"
-            className="w-full md:w-auto p-3 flex items-center justify-center space-x-2 bg-white border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 hover:bg-gray-50 transition-colors"
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <FaFilter className="text-gray-500" />
-            <span>
-              {activeFilter === "all"
-                ? "All"
-                : activeFilter === "unitName"
-                  ? "Unit Name"
-                  : activeFilter === "unitNumber"
-                    ? "Unit Number"
-                    : "Project"}
-            </span>
-          </button>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div className="relative">
+            <select
+              className="w-full p-3 pr-10 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              value={propertyType}
+              onChange={(e) => setPropertyType(e.target.value)}
+            >
+              <option value="" className="text-black font-normal">
+                Property Types
+              </option>
+              <option value="Apartment">Apartment</option>
+              <option value="Villa">Villa</option>
+              <option value="Townhouse">Townhouse</option>
+            </select>
+            <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          </div>
 
-          {showFilters && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
-              <button
-                type="button"
-                className={`w-full text-left p-3 hover:bg-gray-100 ${
-                  activeFilter === "all" ? "bg-primary-50 text-primary-700" : ""
-                }`}
-                onClick={() => handleFilterClick("all")}
-              >
-                All
-              </button>
-              <button
-                type="button"
-                className={`w-full text-left p-3 hover:bg-gray-100 ${
-                  activeFilter === "unitName"
-                    ? "bg-primary-50 text-primary-700"
-                    : ""
-                }`}
-                onClick={() => handleFilterClick("unitName")}
-              >
-                Unit Name
-              </button>
-              <button
-                type="button"
-                className={`w-full text-left p-3 hover:bg-gray-100 ${
-                  activeFilter === "unitNumber"
-                    ? "bg-primary-50 text-primary-700"
-                    : ""
-                }`}
-                onClick={() => handleFilterClick("unitNumber")}
-              >
-                Unit Number
-              </button>
-              <button
-                type="button"
-                className={`w-full text-left p-3 hover:bg-gray-100 ${
-                  activeFilter === "project"
-                    ? "bg-primary-50 text-primary-700"
-                    : ""
-                }`}
-                onClick={() => handleFilterClick("project")}
-              >
-                Project
-              </button>
-            </div>
-          )}
+          <div className="relative">
+            <select
+              className="w-full p-3 pr-10 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              value={bedsAndBaths}
+              onChange={(e) => setBedsAndBaths(e.target.value)}
+            >
+              <option value="" className="text-black font-normal">
+                Beds and Baths
+              </option>
+              <option value="1">1+ Bed</option>
+              <option value="2">2+ Beds</option>
+              <option value="3">3+ Beds</option>
+            </select>
+            <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          </div>
+
+          <div className="relative">
+            <select
+              className="w-full p-3 pr-10 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              value={priceRange}
+              onChange={(e) => setPriceRange(e.target.value)}
+            >
+              <option value="" className="text-black font-normal">
+                Price Range
+              </option>
+              <option value="500-1000">$500 - $1000</option>
+              <option value="1000-2000">$1000 - $2000</option>
+              <option value="2000+">$2000+</option>
+            </select>
+            <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          </div>
         </div>
 
         <button
           type="submit"
-          className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+          className="w-full md:w-auto px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Search
         </button>
