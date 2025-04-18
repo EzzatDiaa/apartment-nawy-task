@@ -15,6 +15,10 @@ export default function ApartmentsPage() {
     unitName?: string;
     unitNumber?: string;
     project?: string;
+    propertyType?: string;
+    bedrooms?: string;
+    priceMin?: string;
+    priceMax?: string;
   }) => {
     try {
       setLoading(true);
@@ -38,6 +42,10 @@ export default function ApartmentsPage() {
     unitName?: string;
     unitNumber?: string;
     project?: string;
+    propertyType?: string;
+    bedrooms?: string;
+    priceMin?: string;
+    priceMax?: string;
   }) => {
     loadApartments(params);
   };

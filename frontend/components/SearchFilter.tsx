@@ -7,6 +7,10 @@ interface SearchFilterProps {
     unitName?: string;
     unitNumber?: string;
     project?: string;
+    propertyType?: string;
+    bedrooms?: string;
+    priceMin?: string;
+    priceMax?: string;
   }) => void;
 }
 
@@ -19,23 +23,37 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Create search parameters object
     let searchParams: {
       search?: string;
       unitName?: string;
       unitNumber?: string;
       project?: string;
+      propertyType?: string;
+      bedrooms?: string;
+      priceMin?: string;
+      priceMax?: string;
     } = {};
 
-    // Add the general search term if provided
     if (search) {
       searchParams.search = search;
     }
 
-    // Add other search parameters based on dropdown selections
-    // This is a simplified example - you might want to adapt this based on your backend API
     if (propertyType) {
-      searchParams.unitName = propertyType;
+      searchParams.propertyType = propertyType;
+    }
+
+    if (bedsAndBaths) {
+      searchParams.bedrooms = bedsAndBaths;
+    }
+
+    if (priceRange) {
+      const [min, max] = priceRange.split("-");
+      if (min) searchParams.priceMin = min;
+      if (max) searchParams.priceMax = max;
+
+      if (priceRange === "2000+") {
+        searchParams.priceMin = "2000";
+      }
     }
 
     onSearch(searchParams);
@@ -43,12 +61,10 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch }) => {
 
   return (
     <div className="w-full bg-white rounded-lg overflow-hidden shadow-lg">
-      {/* Header */}
       <div className="bg-blue-600 text-white py-3 px-4">
         <h2 className="text-lg font-medium">Find Properties</h2>
       </div>
 
-      {/* Search inputs */}
       <form onSubmit={handleSubmit} className="p-4">
         <div className="w-full mb-4">
           <div className="relative">
@@ -56,7 +72,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch }) => {
             <input
               type="text"
               placeholder="Area, Unit Name, Project"
-              className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />

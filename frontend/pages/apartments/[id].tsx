@@ -21,7 +21,6 @@ export default function ApartmentDetails() {
   const [error, setError] = useState<string | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  
   useEffect(() => {
     if (id) {
       const fetchApartment = async () => {
@@ -72,11 +71,9 @@ export default function ApartmentDetails() {
     );
   }
 
-  const defaultImage = "/default-apartment.jpg";
-  const images =
-    apartment.images && apartment.images.length > 0
-      ? apartment.images
-      : [defaultImage];
+  const placeholderImage = "/default-apartment.jpg";
+  // Create an array with the placeholder image
+  const images = Array(3).fill(placeholderImage);
 
   return (
     <Layout title={`${apartment.unitName} | Apartment Details`}>
@@ -92,7 +89,7 @@ export default function ApartmentDetails() {
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="relative h-96">
               <div
-                className="h-full w-full bg-cover bg-center"
+                className="h-full w-full bg-cover bg-center bg-gray-200"
                 style={{ backgroundImage: `url(${images[activeImageIndex]})` }}
               />
               {apartment.featured && (
@@ -115,7 +112,7 @@ export default function ApartmentDetails() {
                     onClick={() => setActiveImageIndex(index)}
                   >
                     <div
-                      className="h-full w-full bg-cover bg-center rounded"
+                      className="h-full w-full bg-cover bg-center rounded bg-gray-200"
                       style={{ backgroundImage: `url(${image})` }}
                     />
                   </div>
@@ -154,6 +151,9 @@ export default function ApartmentDetails() {
             <div className="flex items-center justify-between mb-6 border-b pb-6">
               <span className="text-3xl font-bold text-blue-600">
                 ${apartment.price.toLocaleString()}
+              </span>
+              <span className="px-3 py-1 bg-gray-100 rounded-full text-sm">
+                {apartment.propertyType}
               </span>
             </div>
 

@@ -15,6 +15,10 @@ export const fetchApartments = async (params?: {
   unitName?: string;
   unitNumber?: string;
   project?: string;
+  propertyType?: string;
+  bedrooms?: string;
+  priceMin?: string;
+  priceMax?: string;
 }): Promise<Apartment[]> => {
   const response = await api.get("/apartments", {
     params,

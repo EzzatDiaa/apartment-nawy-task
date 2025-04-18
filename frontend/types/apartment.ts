@@ -18,6 +18,7 @@ export interface Apartment {
   featured: boolean;
   images: string[];
   location?: Location;
+  propertyType: string;
   createdAt: string;
   updatedAt: string;
 }

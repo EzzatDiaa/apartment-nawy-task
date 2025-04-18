@@ -25,7 +25,6 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment }) => {
   const defaultImage = "/default-apartment.jpg";
   const imageUrl = defaultImage;
   // images && images.length > 0 ? images[0] : defaultImage;
-  // Create a short description preview (first 100 characters)
   const shortDescription = description
     ? description.length > 100
       ? `${description.substring(0, 100)}...`
@@ -60,15 +59,19 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment }) => {
         <div className="flex justify-between text-sm text-gray-700 mb-3 border-t border-b border-gray-100 py-2">
           <div className="flex items-center gap-1">
             <FaBed className="text-blue-500" />
-            <span>{bedrooms} beds</span>
+            <span className="text-gray-700 dark:text-gray-400">
+              {bedrooms} beds
+            </span>
           </div>
           <div className="flex items-center gap-1">
             <FaBath className="text-blue-500" />
-            <span>{bathrooms} baths</span>
+            <span className="text-gray-700 dark:text-gray-400">
+              {bathrooms} baths
+            </span>
           </div>
           <div className="flex items-center gap-1">
             <FaRulerCombined className="text-blue-500" />
-            <span>{area} m²</span>
+            <span className="text-gray-700 dark:text-gray-400">{area} m²</span>
           </div>
         </div>
 
