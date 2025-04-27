@@ -1,10 +1,12 @@
-import { Module } from '@nestjs/common';
+// backend/src/app.module.ts
+import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApartmentsModule } from './apartments/apartments.module';
 import { Apartment } from './apartments/entities/apartment.entity';
+import { DatabaseSeeder } from './database/seeder';
 
 @Module({
   imports: [
@@ -26,9 +28,16 @@ import { Apartment } from './apartments/entities/apartment.entity';
         synchronize: configService.get('DB_SYNC', true),
       }),
     }),
+    TypeOrmModule.forFeature([Apartment]),
     ApartmentsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DatabaseSeeder],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(private databaseSeeder: DatabaseSeeder) {}
+
+  async onModuleInit() {
+    await this.databaseSeeder.seed();
+  }
+}
